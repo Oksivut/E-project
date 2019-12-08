@@ -4,24 +4,25 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class Main {
-    public static final int LENGTH =5;
+    public static final int LENGTH = 5;
     public static final int WIDTH = 3;
+    public static final Random R = new Random ();
+
 
     public static void main(String[] args) {
 
 
         int[] array = {35, 19, 85, 96};
         int[] array2 = {11, 95, 98, 25};
-        int [] [] array3= foundTwoDimArray ();
 
         System.out.println(daysCounter(MonthsOfYear.APRIL));
         System.out.println(differenceMinMax(array));
         System.out.println(compareArrays(array, array2));
         System.out.println (findMissing());
 
-        System.out.println (minElementTwoDimArray (array3));
-        System.out.println (invertElementsTwoDimArray(array3));
-        System.out.println (invertOddElementsTwoDimArray (array3));
+        System.out.println (minElementTwoDimArray (foundTwoDimArray (LENGTH, WIDTH )));
+        printTwoDimArray (invertElementsTwoDimArray(foundTwoDimArray (LENGTH, WIDTH )));
+        printTwoDimArray(invertOddElementsTwoDimArray (foundTwoDimArray (LENGTH, WIDTH )));
 
    }
 
@@ -101,16 +102,20 @@ public class Main {
         return sum;
     }
 
-    public static int[][] foundTwoDimArray (){
+    public static int[][] foundTwoDimArray (int LENGTH, int WIDTH ){
         int[][] twoDimArray = new int[LENGTH][WIDTH];
-        Random r = new Random();
-        for (int i = 0; i < twoDimArray.length; i++) {
+               for (int i = 0; i < twoDimArray.length; i++) {
             for (int j = 0; j < twoDimArray[i].length; j++) {
-                twoDimArray[i][j] = r.nextInt(15);
+                twoDimArray[i][j] = R.nextInt(9);
             }
         }
         return twoDimArray;
             }
+    public static void printTwoDimArray(int[][] array) {
+        for (int i = 0; i < array.length; i++) {
+            System.out.println(Arrays.toString(array[i]));
+        }
+    }
 
 
     public static int minElementTwoDimArray(int[][] array) {
@@ -125,38 +130,38 @@ public class Main {
         return minElement;
     }
     public static int [] [] invertElementsTwoDimArray(int[][] array) {
-        int max = 0;
-        int min = 0;
-        int minI = 0;
-        int minJ = 0;
         int maxI = 0;
         int maxJ = 0;
-        for (int i = 0; i < array.length; i++) {
+        int minI = 0;
+        int minJ = 0;
+        int maxElement = array[0][0];
+        int minElement =minElementTwoDimArray(array);
+            for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
-                if (array[i][j] < min) {
-                    min = array[i][j];
+                if (array[i][j] == minElement) {
                     minI = i;
                     minJ = j;
                 }
-                if (array[i][j] > max) {
-                    max = array[i][j];
+                if (array[i][j] > maxElement) {
+                    maxElement = array[i][j];
                     maxI = i;
                     maxJ = j;
                 }
             }
         }
-        array[minI][minJ] = max;
-        array[maxI][maxJ] = min;
+        array[maxI][maxJ] = minElementTwoDimArray(array);
+        array[minI][minJ] = maxElement;
         return array;
     }
+
 
     public static int[][] invertOddElementsTwoDimArray (int[][] array) {
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
-                if ((array[i][0]) % 2 != 0) {
-                    array[i][j] = 0;;
+                if ((array[i][0]) % 2 != 0 ) {
+                    array[i][j] = 0;
                 }
-                if (array[i][j] % 2 != 0) {
+                if (array[i][j] % 2 != 0 && j != 0) {
                     array[i][j] = array[i][j - 1];
                 }
             }
